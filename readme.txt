@@ -6,8 +6,8 @@ Author URI: http://webaware.com.au/
 Donate link: http://shop.webaware.com.au/downloads/gravity-forms-eway/
 Tags: gravityforms, gravity forms, gravity, eway, donation, donations, payment, recurring, ecommerce, credit cards, australia
 Requires at least: 3.6.1
-Tested up to: 3.9.1
-Stable tag: 1.6.1
+Tested up to: 4.0
+Stable tag: 1.6.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,14 +15,14 @@ Integrate Gravity Forms with the eWAY credit card payment gateway
 
 == Description ==
 
-Gravity Forms eWAY adds a credit card payment gateway for [eWAY in Australia](http://www.eway.com.au/) to the [Gravity Forms](https://www.e-junkie.com/ecom/gb.php?cl=54585&c=ib&aff=277327) plugin, using eWAY's [Direct Payments API](http://www.eway.com.au/developers/api/direct-payments.html) or [Stored Payments API](http://www.eway.com.au/developers/api/stored-%28xml%29).
+Gravity Forms eWAY adds a credit card payment gateway for [eWAY in Australia](http://www.eway.com.au/) to the [Gravity Forms](http://webaware.com.au/get-gravity-forms) plugin, using eWAY's [Direct Payments API](http://www.eway.com.au/developers/api/direct-payments.html) or [Stored Payments API](http://www.eway.com.au/developers/api/stored-%28xml%29).
 
 * build online donation forms
 * build online booking forms
 * build simple Buy Now forms
 * accept recurring payments
 
-> NB: this plugin extends [Gravity Forms](https://www.e-junkie.com/ecom/gb.php?cl=54585&c=ib&aff=277327); you still need to install and activate Gravity Forms!
+> NB: this plugin extends [Gravity Forms](http://webaware.com.au/get-gravity-forms); you still need to install and activate Gravity Forms!
 
 = Sponsorships =
 
@@ -31,14 +31,14 @@ Gravity Forms eWAY adds a credit card payment gateway for [eWAY in Australia](ht
 Thanks for sponsoring new features on Gravity Forms eWAY!
 
 = Requirements: =
-* you need to install the [Gravity Forms](https://www.e-junkie.com/ecom/gb.php?cl=54585&c=ib&aff=277327) plugin
+* you need to install the [Gravity Forms](http://webaware.com.au/get-gravity-forms) plugin
 * you need an SSL certificate for your hosting account
 * you need an account with eWAY Australia
 * this plugin uses eWAY's [Direct Payments API](http://www.eway.com.au/developers/api/direct-payments.html) or [Stored Payments API](http://www.eway.com.au/developers/api/stored-%28xml%29), and does not support eWAY's hosted payment form
 
 == Installation ==
 
-1. Install and activate the [Gravity Forms](https://www.e-junkie.com/ecom/gb.php?cl=54585&c=ib&aff=277327) plugin
+1. Install and activate the [Gravity Forms](http://webaware.com.au/get-gravity-forms) plugin
 2. Upload the Gravity Forms eWAY plugin to your /wp-content/plugins/ directory.
 3. Activate the Gravity Forms eWAY plugin through the 'Plugins' menu in WordPress.
 4. Edit the eWAY payment gateway settings to set your eWAY Customer ID and options
@@ -62,7 +62,7 @@ eWAY is a leading provider of online payments solutions for Australia, New Zeala
 
 = Will this plugin work without installing Gravity Forms? =
 
-No. This plugin adds an eWAY payment gateway to Gravity Forms so that you can add online payments to your forms. You must purchase and install a copy of the [Gravity Forms](https://www.e-junkie.com/ecom/gb.php?cl=54585&c=ib&aff=277327) plugin too.
+No. This plugin adds an eWAY payment gateway to Gravity Forms so that you can add online payments to your forms. You must purchase and install a copy of the [Gravity Forms](http://webaware.com.au/get-gravity-forms) plugin too.
 
 = Can I use other eWAY gateways, outside of Australia? =
 
@@ -147,6 +147,9 @@ Developers can use these filter hooks to modify some eWAY invoice properties. Ea
 * [Fork me on GitHub](https://github.com/webaware/gravityforms-eway/)
 
 == Changelog ==
+
+= 1.6.2 [2014-08-15] =
+* added: basic support for Gravity Forms Logging Add-On, to assist support requests; credit card numbers are obfuscated
 
 = 1.6.1 [2014-06-25] =
 * fixed: Gravity Forms 1.8.9 Payment Details box on entry details
