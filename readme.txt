@@ -6,8 +6,8 @@ Author URI: http://webaware.com.au/
 Donate link: http://shop.webaware.com.au/downloads/gravity-forms-eway/
 Tags: gravityforms, gravity forms, gravity, eway, donation, donations, payment, recurring, ecommerce, credit cards, australia
 Requires at least: 3.7
-Tested up to: 4.0
-Stable tag: 1.7.0
+Tested up to: 4.2.2
+Stable tag: 1.8.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -101,7 +101,7 @@ When the sandbox is enabled, the payment amount is rounded up by default, becaus
 
 = Why do I get an error "This page is unsecured"? =
 
-When your form has a credit card field, it accepts very sensitive details from your customers and these must be encrypted. You must have an SSL certificate installed on your website, and your page must be accessed via SSL (i.e. the page address must start with "https:"). You can force a page with a credit card form to be accessed via SSL by ticking Force SSL on the Credit Card Field advanced settings page; see [screenshots](http://wordpress.org/plugins/gravityforms-eway/screenshots/).
+When your form has a credit card field, it accepts very sensitive details from your customers and these must be encrypted. You must have an SSL certificate installed on your website, and your page must be accessed via SSL (i.e. the page address must start with "https:"). You can force a page with a credit card form to be accessed via SSL by ticking Force SSL on the Credit Card Field advanced settings page; see [screenshots](https://wordpress.org/plugins/gravityforms-eway/screenshots/).
 
 = Can I do recurring payments? =
 
@@ -149,6 +149,15 @@ Developers can use these filter hooks to modify some eWAY invoice properties. Ea
 * [Fork me on GitHub](https://github.com/webaware/gravityforms-eway/)
 
 == Changelog ==
+
+= 1.8.0, 2015-06-20 =
+* fixed: prevent conditional recurring payment fields from losing their default values
+* fixed: register recurring field's "type" to avoid PHP notice "Deprecated button for the Recurring field"
+* added: some precautionary XSS prevention
+* changed: recurring start/end date can be hidden independently
+* changed: trim credit card posted values before submitting to gateway
+* changed: use Settings API for plugin settings
+* changed: some code refactoring for easier maintenance
 
 = 1.7.0, 2014-11-08 =
 * fixed: Gravity Forms 1.9 compatibility

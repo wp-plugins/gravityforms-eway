@@ -62,10 +62,13 @@ class GFEwayAdmin {
 			switch ($_GET['page']) {
 				case 'gf_settings':
 					// add our settings page to the Gravity Forms settings menu
-					RGForms::add_settings_page('eWAY Payments', array($this, 'optionsAdmin'));
+					RGForms::add_settings_page('eWAY Payments', array($this, 'settingsPage'));
 					break;
 			}
 		}
+
+		add_settings_section(GFEWAY_PLUGIN_OPTIONS, false, false, GFEWAY_PLUGIN_OPTIONS);
+		register_setting(GFEWAY_PLUGIN_OPTIONS, GFEWAY_PLUGIN_OPTIONS, array($this, 'settingsValidate'));
 	}
 
 	/**
@@ -73,7 +76,7 @@ class GFEwayAdmin {
 	*/
 	public function enqueueScripts() {
 		$ver = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? time() : GFEWAY_PLUGIN_VERSION;
-		wp_enqueue_style('gfeway-admin', $this->plugin->urlBase . 'style-admin.css', false, $ver);
+		wp_enqueue_style('gfeway-admin', plugins_url('css/admin.css', GFEWAY_PLUGIN_FILE), false, $ver);
 	}
 
 	/**
@@ -113,7 +116,7 @@ class GFEwayAdmin {
 	public function addPluginActionLinks($links) {
 		// add settings link, but only if GravityForms plugin is active
 		if (self::isGfActive()) {
-			$settings_link = sprintf('<a href="%s">%s</a>', $this->settingsURL, __('Settings'));
+			$settings_link = sprintf('<a href="%s">%s</a>', esc_url($this->settingsURL), __('Settings'));
 			array_unshift($links, $settings_link);
 		}
 
@@ -125,8 +128,8 @@ class GFEwayAdmin {
 	*/
 	public static function addPluginDetailsLinks($links, $file) {
 		if ($file == GFEWAY_PLUGIN_NAME) {
-			$links[] = '<a href="http://wordpress.org/support/plugin/gravityforms-eway">' . __('Get help') . '</a>';
-			$links[] = '<a href="http://wordpress.org/plugins/gravityforms-eway/">' . __('Rating') . '</a>';
+			$links[] = '<a href="https://wordpress.org/support/plugin/gravityforms-eway">' . __('Get help') . '</a>';
+			$links[] = '<a href="https://wordpress.org/plugins/gravityforms-eway/">' . __('Rating') . '</a>';
 			$links[] = '<a href="http://shop.webaware.com.au/downloads/gravity-forms-eway/">' . __('Donate') . '</a>';
 		}
 
@@ -163,11 +166,45 @@ class GFEwayAdmin {
 	}
 
 	/**
-	* action hook for processing admin menu item
+	* settings admin
 	*/
-	public function optionsAdmin() {
-		$admin = new GFEwayOptionsAdmin($this->plugin, 'gfeway-options', $this->settingsURL);
-		$admin->process();
+	public function settingsPage() {
+		$options = $this->plugin->options;
+		require GFEWAY_PLUGIN_ROOT . 'views/admin-settings.php';
+	}
+
+	/**
+	* validate settings on save
+	* @param array $input
+	* @return array
+	*/
+	public function settingsValidate($input) {
+		$output = array();
+
+		$output['customerID']			= trim(sanitize_text_field($input['customerID']));
+		$output['useStored']			= empty($input['useStored']) ? '' : 1;
+		$output['useTest']				= empty($input['useTest']) ? '' : 1;
+		$output['useBeagle']			= empty($input['useBeagle']) ? '' : 1;
+		$output['roundTestAmounts']		= empty($input['roundTestAmounts']) ? '' : 1;
+		$output['forceTestAccount']		= empty($input['forceTestAccount']) ? '' : 1;
+		$output['sslVerifyPeer']		= empty($input['sslVerifyPeer']) ? '' : 1;
+
+		$errNames = array (
+			GFEWAY_ERROR_ALREADY_SUBMITTED,
+			GFEWAY_ERROR_NO_AMOUNT,
+			GFEWAY_ERROR_REQ_CARD_HOLDER,
+			GFEWAY_ERROR_REQ_CARD_NAME,
+			GFEWAY_ERROR_EWAY_FAIL,
+		);
+		foreach ($errNames as $name) {
+			$output[$name] = trim(sanitize_text_field($input[$name]));
+		}
+
+		if (empty($output['customerID'])) {
+			add_settings_error(GFEWAY_PLUGIN_OPTIONS, '', 'Please enter the eWAY account number.');
+		}
+
+		return $output;
 	}
 
 	/**
@@ -195,14 +232,9 @@ class GFEwayAdmin {
 		}
 
 		// create drop down for payment status
-		//~ $payment_string = gform_tooltip("paypal_edit_payment_status","",true);
-		$input = <<<HTML
-<select name="payment_status">
- <option value="$payment_status" selected="selected">$payment_status</option>
- <option value="Approved">Approved</option>
-</select>
-
-HTML;
+		ob_start();
+		include GFEWAY_PLUGIN_ROOT . 'views/admin-entry-payment-status.php';
+		$input = ob_get_clean();
 
 		return $input;
     }
@@ -238,4 +270,5 @@ HTML;
 
 		GFFormsModel::update_lead($lead);
 	}
+
 }
